@@ -20,7 +20,7 @@ fun ResultScreen(navController: NavController,result: String) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         MyTextView(text = result, color = TV_BLACK, 22.sp, fontWeight = FontWeight.Black)
-        MyButton(text = "BACK", { navController.navigate(ScreenNames.MAIN_PAGE.name) })
+        MyButton(text = "BACK", TV_BLACK) { navController.navigate(ScreenNames.MAIN_PAGE.name) }
     }
 
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
@@ -25,6 +26,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import furkan.hello_compose.ui.theme.APP_BG
 import furkan.hello_compose.ui.theme.HellocomposeTheme
 import furkan.hello_compose.ui.theme.TV_BLACK
 
@@ -63,7 +65,7 @@ fun HelloCompose(navController: NavController) {
         )
         MyTextField(text) { text = it }
         Column() {
-            MyButton("ADD") {
+            MyButton("ADD", color = TV_BLACK) {
                 val count = textResult.filter {
                     it == '-'
                 }
@@ -76,7 +78,7 @@ fun HelloCompose(navController: NavController) {
                 textResult = ""
 
             }
-            MyButton("SHOW RESULT") {
+            MyButton("SHOW RESULT", color = TV_BLACK) {
                 if (textResult.isNotEmpty()) {
                     navController.navigate("${ScreenNames.RESULT_PAGE.name}/${textResult}")
                 } else {
@@ -97,10 +99,10 @@ fun MyAppNavHost() {
             HelloCompose(navController)
         }
         composable(
-            "${ScreenNames.RESULT_PAGE.name}/{result}",
-            arguments = listOf(navArgument(name = "result") { type = NavType.StringType })
+            "${ScreenNames.RESULT_PAGE.name}/{${NavigationKeys.RESULT.code}}",
+            arguments = listOf(navArgument(name = NavigationKeys.RESULT.code) { type = NavType.StringType })
         ) {
-            val result = it.arguments?.getString("result")
+            val result = it.arguments?.getString(NavigationKeys.RESULT.code)
             ResultScreen(navController, result.toString())
         }
     }
@@ -123,9 +125,9 @@ fun MyTextField(text: String, onValueChange: (String) -> Unit) {
 }
 
 @Composable
-fun MyButton(text: String, onClick: () -> Unit) {
+fun MyButton(text: String, color: Color, onClick: () -> Unit) {
     OutlinedButton(onClick = onClick, modifier = Modifier.fillMaxWidth()) {
-        Text(text)
+        Text(text, color = color)
     }
 
 }
@@ -134,6 +136,5 @@ fun MyButton(text: String, onClick: () -> Unit) {
 @Composable
 fun DefaultPreview() {
     HellocomposeTheme {
-        //HelloCompose()
     }
 }
