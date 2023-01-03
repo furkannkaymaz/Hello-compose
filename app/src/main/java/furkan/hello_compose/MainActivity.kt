@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -31,6 +32,7 @@ import androidx.navigation.navArgument
 import furkan.hello_compose.ui.theme.APP_BG
 import furkan.hello_compose.ui.theme.HellocomposeTheme
 import furkan.hello_compose.ui.theme.TV_BLACK
+import furkan.hello_compose.ui.theme.TV_WHITE
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,10 +67,10 @@ fun HelloCompose(navController: NavController) {
             verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            MyTextView(text = "Hello Compose", color = TV_BLACK, 22.sp, fontWeight = FontWeight.Bold)
+            MyTextView(text = "Hello Compose", color = TV_WHITE, 32.sp, fontWeight = FontWeight.ExtraBold)
             MyTextView(
                 text = "What are your 2023 expectations?",
-                color = TV_BLACK,
+                color = TV_WHITE,
                 24.sp,
                 fontWeight = FontWeight.Normal
             )
@@ -81,6 +83,7 @@ fun HelloCompose(navController: NavController) {
                     }
                     if (count.length < 30 && text != "") {
                         textResult += "- $text - \n"
+                        Toast.makeText(mContext, "Successfully added", Toast.LENGTH_SHORT).show()
                         return@MyButton
                     }
                     if (text == "") {
@@ -98,11 +101,9 @@ fun HelloCompose(navController: NavController) {
                     }
                 }
             }
-            MyTextView(text = textResult, color = TV_BLACK, 24.sp, fontWeight = FontWeight.SemiBold)
         }
 
     }
-
 
 }
 
