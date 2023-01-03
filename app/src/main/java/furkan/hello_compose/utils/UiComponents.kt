@@ -33,7 +33,10 @@ fun MyTextField(text: String, onValueChange: (String) -> Unit) {
         onValueChange = onValueChange,
         colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White),
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        label = {
+            Text("Expectations", color = Color.Gray)
+        }
 
     )
 }

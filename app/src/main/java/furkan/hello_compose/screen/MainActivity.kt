@@ -1,4 +1,4 @@
-package furkan.hello_compose
+package furkan.hello_compose.screen
 
 import android.os.Bundle
 import android.widget.Toast
@@ -29,6 +29,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import furkan.hello_compose.*
 import furkan.hello_compose.ui.theme.APP_BG
 import furkan.hello_compose.ui.theme.HellocomposeTheme
 import furkan.hello_compose.ui.theme.TV_BLACK
