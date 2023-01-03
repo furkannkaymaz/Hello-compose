@@ -13,7 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
-import furkan.hello_compose.ui.theme.APP_BG
 
 @Composable
 fun MyTextView(text: String, color: Color, fontSize: TextUnit, fontWeight: FontWeight) {
