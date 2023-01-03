@@ -6,6 +6,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -52,83 +54,55 @@ fun HelloCompose(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(APP_BG)
             .padding(16.dp),
-        verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        MyTextView(text = "Hello Compose", color = TV_BLACK, 22.sp, fontWeight = FontWeight.Bold)
-        MyTextView(
-            text = "What are your 2023 expectations?",
-            color = TV_BLACK,
-            24.sp,
-            fontWeight = FontWeight.Normal
-        )
-        MyTextField(text) { text = it }
-        Column() {
-            MyButton("ADD", color = TV_BLACK) {
-                val count = textResult.filter {
-                    it == '-'
-                }
-
-                if (count.length < 10 && text != "") {
-                    textResult += "- $text - \n"
-                    return@MyButton
-                }
-                Toast.makeText(mContext, "You entered too many values", Toast.LENGTH_SHORT).show()
-                textResult = ""
-
-            }
-            MyButton("SHOW RESULT", color = TV_BLACK) {
-                if (textResult.isNotEmpty()) {
-                    navController.navigate("${ScreenNames.RESULT_PAGE.name}/${textResult}")
-                } else {
-                    Toast.makeText(mContext, "Please enter a value", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-        MyTextView(text = textResult, color = TV_BLACK, 24.sp, fontWeight = FontWeight.SemiBold)
-    }
-
-}
-
-@Composable
-fun MyAppNavHost() {
-    val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = ScreenNames.MAIN_PAGE.name) {
-        composable(ScreenNames.MAIN_PAGE.name) {
-            HelloCompose(navController)
-        }
-        composable(
-            "${ScreenNames.RESULT_PAGE.name}/{${NavigationKeys.RESULT.code}}",
-            arguments = listOf(navArgument(name = NavigationKeys.RESULT.code) { type = NavType.StringType })
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .weight(1f, true),
+            verticalArrangement = Arrangement.SpaceAround,
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            val result = it.arguments?.getString(NavigationKeys.RESULT.code)
-            ResultScreen(navController, result.toString())
+            MyTextView(text = "Hello Compose", color = TV_BLACK, 22.sp, fontWeight = FontWeight.Bold)
+            MyTextView(
+                text = "What are your 2023 expectations?",
+                color = TV_BLACK,
+                24.sp,
+                fontWeight = FontWeight.Normal
+            )
+            MyTextField(text) { text = it }
+            Column() {
+                MyButton("ADD", color = TV_BLACK) {
+
+                    val count = textResult.filter {
+                        it == '-'
+                    }
+                    if (count.length < 30 && text != "") {
+                        textResult += "- $text - \n"
+                        return@MyButton
+                    }
+                    if (text == "") {
+                        Toast.makeText(mContext, "Please enter a value", Toast.LENGTH_SHORT).show()
+
+                    } else {
+                        Toast.makeText(mContext, "You entered too many values", Toast.LENGTH_SHORT)
+                            .show()
+                        textResult = ""
+                    }
+                }
+                MyButton("SHOW RESULT", color = TV_BLACK) {
+                    if (textResult.isNotEmpty()) {
+                        navController.navigate("${ScreenNames.RESULT_PAGE.name}/${textResult}")
+                    }
+                }
+            }
+            MyTextView(text = textResult, color = TV_BLACK, 24.sp, fontWeight = FontWeight.SemiBold)
         }
+
     }
-}
 
-@Composable
-fun MyTextView(text: String, color: Color, fontSize: TextUnit, fontWeight: FontWeight) {
-    Text(
-        text,
-        color = color,
-        fontSize = fontSize,
-        fontWeight = fontWeight,
-        textAlign = TextAlign.Center
-    )
-}
-
-@Composable
-fun MyTextField(text: String, onValueChange: (String) -> Unit) {
-    TextField(value = text, onValueChange = onValueChange, Modifier.fillMaxWidth())
-}
-
-@Composable
-fun MyButton(text: String, color: Color, onClick: () -> Unit) {
-    OutlinedButton(onClick = onClick, modifier = Modifier.fillMaxWidth()) {
-        Text(text, color = color)
-    }
 
 }
 
